@@ -1,0 +1,12 @@
+{
+  "name": "myzticbean",
+  "description": "Claude Code skills by myzticbean.",
+  "owner": { "name": "myzticbean", "url": "https://github.com/myzticbean" },
+  "plugins": [
+    {
+      "name": "minecraft-elite-builder",
+      "source": "./",
+      "description": "Design and build Minecraft structures in code at the level of professional build teams: a Python drawing, checked by numbers and renders, exported as a Sponge .schem for WorldEdit/FAWE."
+    }
+  ]
+}

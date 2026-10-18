@@ -7,7 +7,7 @@ it, and hands you a `.schem` you paste with WorldEdit or FAWE.
 
 ![The legendary forge, rendered by the skill's own renderer](media/forge-hero.png)
 
-*The worked example, `examples/forge_legendary.py`, as the skill's renderer draws it: a
+*The worked example, `skills/minecraft-elite-builder/examples/forge_legendary.py`, as the skill's renderer draws it: a
 water-powered hammer mill of three generations. It is 62 by 51 by 28, about 16,100 blocks, with no
 entities.*
 
@@ -43,36 +43,43 @@ already paid for.
 - **Python 3.9 or newer**, with **numpy** (`pip install numpy`). Nothing else.
 - **A Minecraft server with WorldEdit or FAWE** to paste the result. The schematics are written for
   Minecraft 26.2 (data version 4903); for another version, change `DATA_VERSION` in
-  `scripts/schem.py`.
+  `skills/minecraft-elite-builder/scripts/schem.py`.
 
 ## Installation
 
-Claude Code finds skills in `~/.claude/skills/<name>/` (for every project) or in
-`<project>/.claude/skills/<name>/` (for one project). The folder must be called
-`minecraft-elite-builder`.
+### As a plugin (recommended)
 
-**For all your projects:**
+This repo is a Claude Code plugin marketplace. In Claude Code, run:
 
-```bash
-git clone https://github.com/myzticbean/minecraft-elite-builder-skill.git ~/.claude/skills/minecraft-elite-builder
+```
+/plugin marketplace add myzticbean/minecraft-elite-builder-skill
+/plugin install minecraft-elite-builder@myzticbean
 ```
 
-**For one project** (run in the project's root; commit it if your team should have it too):
-
-```bash
-git clone https://github.com/myzticbean/minecraft-elite-builder-skill.git .claude/skills/minecraft-elite-builder
-```
-
-On Windows PowerShell, `~` works too, or use `$HOME\.claude\skills\minecraft-elite-builder`.
-
-Then start a new Claude Code session. Ask "what skills do you have?" or type `/` to check that
+Then start a new session (or run `/reload-plugins`). Type `/` to check that
 `minecraft-elite-builder` is listed.
 
-**Updating:** `git pull` inside the skill's folder.
+**Updating:** `/plugin marketplace update myzticbean`, or turn on auto-update for the marketplace in
+`/plugin`.
+
+### By hand
+
+The skill itself is the folder `skills/minecraft-elite-builder/`. Clone the repo anywhere, then
+copy (or link) that folder to `~/.claude/skills/minecraft-elite-builder` for every project, or to
+`<project>/.claude/skills/minecraft-elite-builder` for one project:
+
+```bash
+git clone https://github.com/myzticbean/minecraft-elite-builder-skill.git
+cp -r minecraft-elite-builder-skill/skills/minecraft-elite-builder ~/.claude/skills/
+```
+
+On Windows PowerShell, use `Copy-Item -Recurse` to `$HOME\.claude\skills\`. To update, `git pull`
+and copy again.
 
 ## Usage
 
-Ask for a build, or call the skill by name:
+Ask for a build, or call the skill by name (installed as a plugin, its command is
+`/minecraft-elite-builder:minecraft-elite-builder`):
 
 ```
 /minecraft-elite-builder Build an apothecary for my village, your own design, legendary tier.
@@ -128,6 +135,7 @@ python builds/review.py builds/<build>.py dump v 0 0 10 -7 7
 Try the example straight from the skill folder:
 
 ```bash
+cd skills/minecraft-elite-builder
 python examples/forge_legendary.py /tmp/forge
 ```
 
@@ -135,6 +143,9 @@ It prints the checks, then `good`, writes `/tmp/forge-*.png`, and writes
 `examples/forge_legendary.schem`.
 
 ## What's in it
+
+Everything Claude uses lives in `skills/minecraft-elite-builder/`; the paths below are inside it.
+`.claude-plugin/` holds the plugin and marketplace manifests, and `media/` the README images.
 
 | Path | What |
 |---|---|

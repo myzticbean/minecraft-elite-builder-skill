@@ -1,0 +1,10 @@
+{
+  "name": "minecraft-elite-builder",
+  "version": "1.0.0",
+  "description": "Design and build Minecraft structures in code at the level of professional build teams: a Python drawing, checked by numbers and renders, exported as a Sponge .schem for WorldEdit/FAWE.",
+  "author": { "name": "myzticbean", "url": "https://github.com/myzticbean" },
+  "homepage": "https://github.com/myzticbean/minecraft-elite-builder-skill",
+  "repository": "https://github.com/myzticbean/minecraft-elite-builder-skill",
+  "license": "GPL-3.0",
+  "keywords": ["minecraft", "schematic", "worldedit", "fawe", "building"]
+}
