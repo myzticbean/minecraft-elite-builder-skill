@@ -70,11 +70,11 @@ eave), which gives a gradient: in the forge, moss tiles where k ≤ 2.
 |---|---|
 | `resolve(d)` | `{(u, y, v): block}`, with palette references picked. |
 | `connect(blocks)` | Panes, bars, fences and walls joined to their neighbours, and stair corner shapes, using vanilla's rules. It prints any pane that joins nothing. **Always run it before checking, rendering or writing.** |
-| `check(blocks, start, floors)` | Prints the floating blocks, things hung on nothing, flammables by lava, and, for each `(name, cells)` floor, how many cells a player reaches from `start`. Returns True when all are clean. |
+| `check(blocks, start, floors)` | Prints the floating blocks, things hung on nothing, flammables by lava, covered cells at block light 0 where a mob could spawn, and, for each `(name, cells)` floor, how many cells a player reaches from `start`. Returns True when all are clean. |
 | `render(Volume(blocks), prefix)` | Writes four PNGs: `-hero` (big, front left, sub-block shapes), `-iso` (front right, back right, back left), `-sides` (front, left, back and right elevations, whole cubes) and `-top`. |
 | `close(blocks, prefix, (u0, u1, v0, v1), corners=(3, 2), s=24)` | Iso views cropped to the box, in sub-block shapes. |
 | `iso(vol, corner, s)`, `elevation(vol, side, s)`, `fine(vol, 4)`, `write_png(path, rgb)` | The pieces, for custom views. `fine` cuts each block into 4×4×4 sub-cells in its rough shape (stairs, slabs, panes, fences, lanterns, plants). |
-| `floating`, `unattached`, `fire_risk`, `walk` | The checks one at a time. |
+| `floating`, `unattached`, `fire_risk`, `dark`, `walk` | The checks one at a time. `dark(blocks)` returns the dark covered feet cells, sorted; `glow(block)` is a block's light level. |
 
 Corners: 3 front left (the hero angle), 2 front right, 1 back right, 0 back left.
 

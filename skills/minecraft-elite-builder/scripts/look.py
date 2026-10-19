@@ -6,8 +6,8 @@ across. Then:
 
 - ``render(blocks, path)`` writes PNGs: isometric views from the four corners, the four flat
   elevations, the plan from above. Plain cubes coloured by name, no textures.
-- ``check(blocks, start)`` prints the facts a review needs: blocks not joined to the ground, where
-  a player can walk from ``start``, which floors they can't reach.
+- ``check(blocks, start)`` prints the facts a review needs: blocks not joined to the ground, covered
+  cells dark enough for a mob, where a player can walk from ``start``, which floors they can't reach.
 
 Needs numpy only; PNGs are written with zlib.
 """
@@ -734,10 +734,77 @@ def _d3(direction):
     return du, 0, dv
 
 
+# Block light by name, the game's levels; a light block carries its own (level=, 15 by default).
+GLOW = {'lantern': 15, 'sea_lantern': 15, 'jack_o_lantern': 15, 'campfire': 15, 'glowstone': 15,
+        'shroomlight': 15, 'lava': 15, 'torch': 14, 'wall_torch': 14, 'soul_lantern': 10,
+        'soul_campfire': 10, 'soul_torch': 10, 'soul_wall_torch': 10, 'magma_block': 3}
+FACES = (((1, 0, 0), 'north', 'south'), ((-1, 0, 0), 'south', 'north'), ((0, 0, 1), 'east', 'west'),
+         ((0, 0, -1), 'west', 'east'), ((0, 1, 0), 'up', 'down'), ((0, -1, 0), 'down', 'up'))
+
+
+def glow(block):
+    b = base(block)
+    if 'lit=false' in block:
+        return 0
+    if b == 'light':
+        return int(split(block)[1].get('level', 15))
+    return GLOW.get(b, 0)
+
+
+def clear(block):
+    """Does block light pass into it? Every block that isn't full does, and glass, ice, leaves and
+    water."""
+    b = base(block)
+    return (not full(block) or b in ('light', 'ice', 'water', 'lava') or b.endswith('leaves')
+            or (b.endswith('glass') and b != 'tinted_glass'))
+
+
+def shut(block, face):
+    """Does the block cover its whole face toward ``face``? Light never crosses a whole face: a slab
+    floor or ceiling stops it, and so do a stair's underside (or top) and its back."""
+    b = base(block)
+    _, pr = split(block)
+    if b.endswith('_slab'):
+        return face == {'bottom': 'down', 'top': 'up'}.get(pr.get('type', 'bottom'))
+    if b.endswith('_stairs'):
+        return face in ('up' if pr.get('half') == 'top' else 'down', pr.get('facing', 'north'))
+    return False
+
+
+def dark(blocks):
+    """Feet cells where a mob could spawn: a full block below (not glass, leaves or water), air at
+    the feet, room for a head, block light 0, and something other than leaves overhead (out in the
+    open the sky lights it by day). Block light floods from every lamp and fire (``glow``), one less
+    a block, into every block it passes (``clear``), never across a whole face (``shut``)."""
+    # ponytail: leaves and water dim no more than air, snow, path and farmland let light through, and
+    # two half faces never close a face together; the game is a little darker there.
+    light = {p: glow(b) for p, b in blocks.items() if glow(b)}
+    todo = deque(light)
+    while todo:
+        p = todo.popleft()
+        lv = light[p] - 1
+        here = blocks.get(p, 'air')
+        for (du, dy, dv), out, into in FACES:
+            q = (p[0] + du, p[1] + dy, p[2] + dv)
+            there = blocks.get(q, 'air')
+            if lv <= light.get(q, 0) or not clear(there) or shut(here, out) or shut(there, into):
+                continue
+            light[q] = lv
+            todo.append(q)
+    top = {}
+    for (u, y, v), b in blocks.items():
+        if base(b) not in AIRS and not base(b).endswith('leaves'):
+            top[(u, v)] = max(top.get((u, v), y), y)
+    return sorted((u, y + 1, v) for (u, y, v), b in blocks.items()
+                  if not clear(b) and base(blocks.get((u, y + 1, v), 'air')) in AIRS
+                  and passable(blocks.get((u, y + 2, v), 'air'))
+                  and not light.get((u, y + 1, v)) and top.get((u, v), y) > y + 1)
+
+
 def check(blocks, start, floors=()):
-    """Print the facts: floating blocks, things hung on nothing, and for each named floor (name, y,
-    cells) how much of it a player reaches from start. Returns True when nothing floats, nothing
-    hangs on air and every floor is reached."""
+    """Print the facts: floating blocks, things hung on nothing, flammables by lava, covered cells left
+    dark, and for each named floor (name, y, cells) how much of it a player reaches from start.
+    Returns True when all of them are clean and every floor is reached."""
     good = True
     f = floating(blocks)
     print('floating blocks: %d' % len(f), f[:12] if f else '')
@@ -748,6 +815,9 @@ def check(blocks, start, floors=()):
     r = fire_risk(blocks)
     print('flammable by lava: %d' % len(r), r[:12] if r else '')
     good &= not r
+    k = dark(blocks)
+    print('dark covered cells: %d' % len(k), k[:12] if k else '')
+    good &= not k
     reach = walk(blocks, start)
     for name, cells in floors:
         cells = [c for c in cells if passable(blocks.get(c, 'air'))]
@@ -755,3 +825,15 @@ def check(blocks, start, floors=()):
         print('%-24s reached %3d of %3d standing cells' % (name, got, len(cells)))
         good &= got > 0
     return good
+
+
+if __name__ == '__main__':
+    # A shut stone room with 5 by 5 cells of floor: dark, then lit by a lantern, then dark again with
+    # the lantern up on a slab ceiling.
+    room = {(u, y, v): 'stone' for u in range(-3, 4) for v in range(-3, 4) for y in range(5)
+            if y in (0, 4) or 3 in (abs(u), abs(v))}
+    assert len(dark(room)) == 25
+    assert dark({**room, (0, 1, 0): 'lantern'}) == []
+    slab = {p: 'oak_slab' if p[1] == 4 else b for p, b in room.items()}
+    assert len(dark({**slab, (0, 5, 0): 'lantern'})) == 25
+    print('dark: ok')

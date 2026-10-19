@@ -13,7 +13,8 @@ goes in game.
 
 The toolkit is in this skill's `scripts/` folder (Python 3.9+ and numpy). The worked example is
 `examples/forge_legendary.py`: a water-powered hammer mill of three generations, 62 by 51 by 28,
-about 16,100 blocks, about 1,050 lines, all checks clean.
+about 16,100 blocks, about 1,050 lines, all checks clean but the light check, which came after it:
+22 covered cells stay dark, most of them on the hill under its back eaves.
 
 ## Setup, once per project
 
@@ -64,7 +65,7 @@ If the project has no copy of the toolkit yet, make one:
 | 4. Texture | Palettes on gradients with a reason: dirty at the foot, soot near fire, moss where water runs, patches rather than salt. | Values contrast between materials (dark roof, pale plaster, mid stone, dark timber). |
 | 5. Detail and interior | Micro-blocks that each mean something; the trade's working parts in working order; visible structure inside (trusses, corbels). | Every prop tells a story of work. |
 | 6. Ground | The hill, built after the buildings and only into empty cells; the dig, retaining walls, worn paths, water, clutter thinning out, greenery at wall feet. | No cliff at the site's edge; the building grows out of the slope. |
-| 7. Light | Lanterns where people walk (every 4 to 6 blocks), fire where the work is, hidden `light` only in dark corners. | No dark pocket a mob could spawn in. |
+| 7. Light | Lanterns where people walk (every 4 to 6 blocks), fire where the work is, hidden `light` only in dark corners. | No dark pocket a mob could spawn in: `look.check` counts 0 dark covered cells. |
 | 8. Review | All checks clean, then the hero, iso and close views of each volume, a cutaway of each interior, and a cell dump for any doubt. | Nothing left that a top builder would point at. |
 
 A legendary build takes several review passes (the forge took five). A trial takes one or two.
@@ -90,6 +91,10 @@ judge them. For closer looks, use `review.py` (close, cut, dump; see `references
 - **hung on nothing: 0**: trapdoors, ladders, buttons, signs, banners and lanterns all touch a
   block.
 - **flammable by lava: 0**: nothing burnable within 2 sideways or 5 above.
+- **dark covered cells: 0**: no cell a mob could spawn in (a full block below, air at the feet,
+  room for a head) sits at block light 0 under a roof. Block light floods from every lamp, fire
+  and `light` block, one less a block, through anything that isn't a full block and through glass,
+  ice, leaves and water; slab and stair faces stop it. Light the cells it lists, or fill them.
 - **every floor reached** from the paste origin.
 
 `look.connect` prints any pane that joins nothing; that is a window in the wrong cell.
