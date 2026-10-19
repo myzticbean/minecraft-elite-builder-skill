@@ -39,6 +39,11 @@ nearby changes. Then vanilla takes over.
 | Two roofs read as one long roof | Never start a lower roof on the line of a higher one's slope. Give each its own gable at its own beam. |
 | A tower or stack cut by a roof drawn later | Draw roofs first, then whatever pierces them. |
 | A squat spire | A steep pyramid ending in a block, a wall post and a rod. Moss on a spire looks wrong; keep it at eaves. |
+| A spire set on a wider plank cornice read as a pagoda, its rings like tiers of a cake | Start the spire at its own eave, a block proud of the belfry, with no brim under it, in even steps of two. |
+| A spire's heart is hollow: `d.spire` fills each ring down only to the ring outside it | The hollow is a dark room a mob can spawn in. Fill the inner columns after drawing it. |
+| A cross gable over a room hung tiles at the room's ceiling | `d.roof` fills under its first stair down to the eave; inside a building that fill hangs in the room. Dump the plane and clear those cells. |
+| A lantern base clad in plaster where it rose through the roof read as a chimney | Hang it with the roof's own tiles (slate-hung); keep plaster for walls under the eaves. |
+| A long roof slope facing the square read bare | Break any slope over about ten blocks that faces the path with a dormer: its wall carried up through the eave, its own small gable. |
 
 ## Composition and scale
 
@@ -48,10 +53,13 @@ nearby changes. Then vanilla takes over.
 | A fat house (11 wide under a 1-in-1 roof) | Narrow and tall; the roof is about half the building's height. Count from a known small block. |
 | A tower base as tall as the shaft reads stubby | Keep the base low (8) and the shaft tall (to 25). |
 | Farrier's stocks 4 high and 5 long read as a gazebo | Keep things at real size. |
+| A marketplace of many stalls drawn for one keeper | Every counter implies someone working it; in a game, a character. Ask how many keepers there are before drawing stalls, and dress the rest as unmanned. |
+| Mossy voussoirs and moss blocks in a rubble face hid its arches | Arches in rough walls get dressed, paler voussoirs so they read. Moss goes in patches on the wall, never on the arch ring. |
 | A woodshed hid the wheel from the hero corner | Keep the hero line clear: nothing at higher u and lower v than the feature. |
 | A thin ring with three-wide paddles read as a crate | A wheel has two shrouds and buckets between them. |
 | A cliff at the site's edge | Taper the hill at both ends and at the back. |
 | Rock salted over every slope | Rock only on steps of 3 or more and in rare two-by-two outcrops. |
+| A taper that subtracts from the hill still left cliffs where the hill stood tall | Scale the height instead: `h * clamp(distance to the edge / 6, 0, 1)`. |
 | "From scratch" rebuilt an old reference | When the user asks for one's own design, trace no reference; name the inspirations. |
 
 ## Drawing
@@ -59,6 +67,7 @@ nearby changes. Then vanilla takes over.
 | Trap | Rule |
 |---|---|
 | A spoke or diagonal line floats | `d.line` can join cells at an edge only. Step one axis at a time (`bridge_line`), because `look.floating` needs faces to touch. |
+| Diagonal truss struts floated | The same edge-only join. Use queen posts and a collar: upright and level members only. |
 | A pendant on a corbel ring floated | The ring's centre was empty. Fill it (a plank) so the pendant hangs on something. |
 | Fences near lava | Use iron bars within 2 sideways and 5 above lava (`look.fire_risk`). |
 | A decoration overwrote a door's surround | Later `set` calls overwrite. Guard them with `if d.get(...) is None`, or draw the decoration first. |
@@ -72,6 +81,8 @@ nearby changes. Then vanilla takes over.
 | The front looked missing in an iso view, but a cell dump showed it whole (foreshortening) | Never "fix" what a render misreads. Check it first with `review.py dump`. |
 | Site-wide renders too small to judge | Use close views cropped to each volume plus a few blocks, `s=24` to `28`, from two corners. |
 | Interiors can't be seen | `review.py cut` with a ymax just under the ceiling. |
+| A cut at the ceiling's own y showed a solid floor | The ymax must be under the ceiling's y; one too high shows the floor above. |
+| Belfries, lofts and roof hollows were dark, and no render showed it | Mobs spawn at block light 0 under any roof. Flood-fill block light from every lamp and fire; every covered cell a mob could stand in needs light 1 or more. A hidden `light` under a bell is fair. |
 | A render's colour isn't the block's texture | Renders colour by name. Judge shape and value; the real textures show in game. |
 | The schematic file hash changes on every run | It's the gzip timestamp. To compare two builds, hash the uncompressed bytes (`gzip.open(...).read()`). |
 
