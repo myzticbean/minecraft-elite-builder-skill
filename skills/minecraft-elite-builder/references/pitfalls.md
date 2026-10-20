@@ -44,6 +44,9 @@ nearby changes. Then vanilla takes over.
 | A cross gable over a room hung tiles at the room's ceiling | `d.roof` fills under its first stair down to the eave; inside a building that fill hangs in the room. Dump the plane and clear those cells. |
 | A lantern base clad in plaster where it rose through the roof read as a chimney | Hang it with the roof's own tiles (slate-hung); keep plaster for walls under the eaves. |
 | A long roof slope facing the square read bare | Break any slope over about ten blocks that faces the path with a dormer: its wall carried up through the eave, its own small gable. |
+| Roofs drawn one over another (a hall between two cross-wings, dormers) left one roof's tiles hanging in the other's attic and its gable end standing through the other's slope | Draw each roof alone into an empty cell map, then merge: in every column two roofs share, the higher surface wins and the lower roof's cells there go. That is a valley. A roof's cells under its own surface never overwrite a wall already drawn. |
+| A gable's verge overhanging the hill at a building's back covered the slope far below it, and every grass cell under it was dark | Over a hillside, end the roof in the back gable's own plane (no overhang there), and raise the slope to meet any eave that hangs within six blocks of it. |
+| Paired chimney shafts with a corbel ring each, a block apart, merged into one wide slab at the crown | Space the shafts so their rings don't touch (a gap of three between 2×2 shafts). |
 
 ## Composition and scale
 
@@ -67,6 +70,11 @@ nearby changes. Then vanilla takes over.
 | Trap | Rule |
 |---|---|
 | A spoke or diagonal line floats | `d.line` can join cells at an edge only. Step one axis at a time (`bridge_line`), because `look.floating` needs faces to touch. |
+| A jetty's floor band, drawn across a party wall, cut a plank stripe through the older stone wall it ran over | Redraw the older wall after the jetties, or stop the floor at its face. |
+| Tie beams run out to the wall line replaced the eave tiles at both ends | Stop beams a block inside the outer walls; a roof's eave sits in that column. |
+| Brackets under a jetty, written at the ground wall's v, landed in the wall | A bracket goes in the jetty's own plane, one block under its cove, facing the wall below. |
+| A flight of stairs drew fine, but the floor above it was never reached | A player jumps from step to step and needs three clear blocks over each step, not two: clear the floor above the top steps too. |
+| A timber storey with posts every three blocks, a sill rail, a head rail and a window in every bay left no infill: it read as a dark grid | Wide bays (four or five), one window framed in infill in each, no sill rail on a storey that already has a jetty band under it. |
 | Stall posts stopped under an awning of top-half trapdoors, which floated half a block above them in game | Run the corner posts up into the awning's own cells (fences there, the carpet on their tops); the render hides a half-block gap. |
 | Diagonal truss struts floated | The same edge-only join. Use queen posts and a collar: upright and level members only. |
 | A pendant on a corbel ring floated | The ring's centre was empty. Fill it (a plank) so the pendant hangs on something. |
