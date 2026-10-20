@@ -20,6 +20,7 @@ nearby changes. Then vanilla takes over.
 | Empty cells | Paste as air and clear the box | The drawing holds its own ground and hill. `'air'` cells cut on purpose. |
 | Doors, beds | Half a door or bed breaks | Write both halves. |
 | Entities (armour stands, item frames, minecarts) | Cost every tick | Never. Make the same meaning from blocks. |
+| A block the server's resource pack redraws (mud bricks drawn as a dungeon's mossy rock) | It shows the pack's texture everywhere, so a brick chimney came out green in patches | Before choosing palettes, ask which vanilla blocks the server's pack overrides and keep them out of every build. |
 | Chest contents, sign text | A design carries no block-entity data | Leave them empty, or say so. |
 
 ## Facings
