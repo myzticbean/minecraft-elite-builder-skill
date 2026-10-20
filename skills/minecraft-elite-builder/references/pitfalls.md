@@ -67,6 +67,7 @@ nearby changes. Then vanilla takes over.
 | Trap | Rule |
 |---|---|
 | A spoke or diagonal line floats | `d.line` can join cells at an edge only. Step one axis at a time (`bridge_line`), because `look.floating` needs faces to touch. |
+| Stall posts stopped under an awning of top-half trapdoors, which floated half a block above them in game | Run the corner posts up into the awning's own cells (fences there, the carpet on their tops); the render hides a half-block gap. |
 | Diagonal truss struts floated | The same edge-only join. Use queen posts and a collar: upright and level members only. |
 | A pendant on a corbel ring floated | The ring's centre was empty. Fill it (a plank) so the pendant hangs on something. |
 | Fences near lava | Use iron bars within 2 sideways and 5 above lava (`look.fire_risk`). |
