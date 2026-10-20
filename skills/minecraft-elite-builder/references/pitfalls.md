@@ -60,6 +60,7 @@ nearby changes. Then vanilla takes over.
 | A marketplace of many stalls drawn for one keeper | Every counter implies someone working it; in a game, a character. Ask how many keepers there are before drawing stalls, and dress the rest as unmanned. |
 | Mossy voussoirs and moss blocks in a rubble face hid its arches | Arches in rough walls get dressed, paler voussoirs so they read. Moss goes in patches on the wall, never on the arch ring. |
 | A woodshed hid the wheel from the hero corner | Keep the hero line clear: nothing at higher u and lower v than the feature. |
+| A hanging bell drawn as circles widening a block per layer read in game as a stepped cake of copper | Draw an object's profile, not rings by radius: a bell is a small crown, a shoulder rounded with stairs, straight sides with a band, then its lip. Check it with a cross-section dump. |
 | A thin ring with three-wide paddles read as a crate | A wheel has two shrouds and buckets between them. |
 | A cliff at the site's edge | Taper the hill at both ends and at the back. |
 | Rock salted over every slope | Rock only on steps of 3 or more and in rare two-by-two outcrops. |
