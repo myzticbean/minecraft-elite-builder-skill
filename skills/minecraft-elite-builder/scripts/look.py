@@ -675,7 +675,7 @@ def _stair_shape(blocks, p, props):
 
 def unattached(blocks):
     """Things that hang on a block with nothing there: an open trapdoor's panel, a ladder, a
-    button, a wall sign, banner or torch, a hanging or standing lantern, a vine's side."""
+    button, a wall sign, banner or torch, a hanging or standing lantern, a rod's foot, a vine's side."""
     bad = []
     for (u, y, v), block in blocks.items():
         b = base(block)
@@ -694,6 +694,9 @@ def unattached(blocks):
             need.append((0, 1, 0, False) if pr.get('hanging') == 'true' else (0, -1, 0, False))
         elif b.endswith('_hanging_sign'):
             need.append((0, 1, 0, False))
+        elif b in ('lightning_rod', 'end_rod'):        # a rod stands on its foot, not on a neighbour
+            need.append((0, -1, 0, False) if f in (None, 'up') else (0, 1, 0, False) if f == 'down'
+                        else (*_d3(OPP[f]), False))
         elif b == 'vine':
             need += [(*_d3(s), False) for s in DIRS if pr.get(s) == 'true']
         for du, dy, dv, must_full in need:

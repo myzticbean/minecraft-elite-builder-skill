@@ -61,6 +61,9 @@ nearby changes. Then vanilla takes over.
 | Mossy voussoirs and moss blocks in a rubble face hid its arches | Arches in rough walls get dressed, paler voussoirs so they read. Moss goes in patches on the wall, never on the arch ring. |
 | A woodshed hid the wheel from the hero corner | Keep the hero line clear: nothing at higher u and lower v than the feature. |
 | A hanging bell drawn as circles widening a block per layer read in game as a stepped cake of copper | Draw an object's profile, not rings by radius: a bell is a small crown, a shoulder rounded with stairs, straight sides with a band, then its lip. Check it with a cross-section dump. |
+| The bell redrawn with a crown, shoulder and straight 5-wide sides still read in game as a copper box | Straight sides are a box. A bell reads by its waist and flare: a round plan (3, 5, then 7 wide, never a square with cut corners), the sound bow 2 wider than the waist, and a broken lip torn aslant so one side keeps its rim. Render it alone from the side: the silhouette must say bell. |
+| A lightning rod past the end of a crest passed the floating check, because it touched the crest's last post side by side, and hung in the sky in game | A rod stands on its foot: check it against the block below (or behind its facing), and set gable rods on top of the crest's end, where the verge really stops. |
+| A hearth fire under a solid breast: its smoke pooled under the fireplace's lintel | Leave a flue open above any fire meant to smoke, a column up inside the stack to where the breast's face ends, so the smoke rises out of sight. |
 | A thin ring with three-wide paddles read as a crate | A wheel has two shrouds and buckets between them. |
 | A cliff at the site's edge | Taper the hill at both ends and at the back. |
 | Rock salted over every slope | Rock only on steps of 3 or more and in rare two-by-two outcrops. |
